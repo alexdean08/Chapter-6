@@ -1,0 +1,68 @@
+/**
+ * This is the class for an item object that has a name, price, and quantity
+ * 
+ * @author Alex Dean
+ * @version November 9, 2017
+ */
+import java.text.NumberFormat;
+public class Item
+{
+    private String name;
+    private double price;
+    private int quantity;
+    /**
+     * This is the constructor that assigns all the basic information about the item
+     * 
+     * @param String itemName the name of the item
+     * @param double itemPrice the price of the item
+     * @paramm int numPurchased the quantity of the item
+     */
+    public Item (String itemName, double itemPrice, int numPurchased)
+    {
+        name = itemName;
+        
+        price = itemPrice;
+        quantity = numPurchased;
+    }
+    /**
+     * This converts the information about the item into a String and returns it
+     * 
+     * @return String all the information about the item
+     */
+    public String toString ()
+    {
+        NumberFormat fmt = NumberFormat.getCurrencyInstance();
+        return (name + "\t" + fmt.format(price) + "\t\t" + quantity + "\t\t"
+            + fmt.format(price*quantity));
+    }
+    
+    /**
+     * This returns the price of the item.
+     * 
+     * @return double price the price of the item.
+     */
+    public double getPrice()
+    {
+        return price;
+    }
+    
+    /**
+     * This returns the name of the item.
+     * 
+     * @return String name the name of the item.
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * This returns the quantity of the item
+     * 
+     * @return int quantity the quantity of the item.
+     */
+    public int getQuantity()
+    {
+        return quantity;
+    }
+}
