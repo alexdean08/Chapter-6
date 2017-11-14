@@ -1,0 +1,84 @@
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+import javafx.embed.swing.JFXPanel;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+public class IPod{
+    
+    private String name;
+    private Song song;
+    //private Song list[] = new Song[3];
+    private ArrayList<Song> songs;
+    
+    //int l = 0;
+    public IPod(String n){
+        name = n;
+        songs = new ArrayList<Song>();
+    }
+ 
+    public void addSong(String t, String a, int s){
+        /*song = new Song(t, a, s);
+        list[l] = song;
+        l++;*/
+        
+        songs.add(new Song(t, a, s));
+    }
+    
+    public String toString(){
+        String s = name + "'s iPod:\n--------------------------\n";
+        for(int i = 0; i<songs.size(); i++){
+            s += (i+1) + songs.get(i).getTitle() + "\n";
+        }
+        return s;
+    }
+    
+    public void playSong(){
+        new JFXPanel();
+        String bip = "Bohemian Rhapsody.mp3";
+        Media hit = new Media(new File(bip).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        try {
+            
+
+        } catch(Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+
+        Scanner scan = new Scanner(System.in);
+        boolean g = true;
+        String n = "";
+        while(g){
+            n = scan.nextLine();
+            if(n.equalsIgnoreCase("1")){
+                mediaPlayer.stop();
+                bip = "Bohemian Rhapsody.mp3";
+                
+            }
+            if(n.equalsIgnoreCase("2")){
+                mediaPlayer.stop();
+                bip = "I want you back.mp3";
+               
+            }
+            if(n.equalsIgnoreCase("3")){
+                mediaPlayer.stop();
+                bip = "You should be dancing.mp3";
+                
+            }
+            if(n.equalsIgnoreCase("Stop")){
+                
+                g = false;
+            }
+            hit = new Media(new File(bip).toURI().toString());
+                mediaPlayer = new MediaPlayer(hit);
+                mediaPlayer.play();
+        }
+        mediaPlayer.stop();
+    }
+}
