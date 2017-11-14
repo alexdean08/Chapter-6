@@ -1,0 +1,67 @@
+/**
+ * This is a shopping cart object
+ * 
+ * @author Alex Dean
+ * @version November 9, 2017
+ */
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+public class ShoppingCart3
+{
+    private int itemCount; // total number of items in the cart
+    private double totalPrice; // total price of items in the cart
+    
+    
+    private ArrayList <Item>cart = new ArrayList<Item>();
+    /**
+     * This is the constructor that assigns the numbers for
+     * all of the basic data
+     */
+    public ShoppingCart3()
+    {
+        
+        itemCount = 0;
+        totalPrice = 0.0;
+        
+    }
+    /**
+     * This adds a new item to the cart
+     * 
+     * @param String itemName the name of the item
+     * @param double price the price of the item
+     * @param int quantity the quantity of the item
+     */
+    public void addToCart(String itemName, double price, int quantity)
+    {
+        cart.add(new Item(itemName, price, quantity));
+        totalPrice += price*quantity;
+        
+    }
+    /**
+     * This converts the information about the cart
+     * into a simple string
+     * 
+     * @return String basic information about the cart
+     */
+    public String toString()
+    {
+        NumberFormat fmt = NumberFormat.getCurrencyInstance();
+        String contents = "\nShopping Cart\n";
+        contents += "\nItem\tUnit Price\tQuantity\tTotal\n";
+        for (int i = 0; i < cart.size(); i++)
+            contents += cart.get(i).toString() + "\n";
+        //contents += "\nTotal Price: " + fmt.format(totalPrice);
+        contents += "\n";
+        return contents;
+    }
+    
+    /**
+     * This returns the total price of the cart
+     * 
+     * @return totalPrice the total price of everything in the cart
+     */
+    public double getTotalPrice(){
+        return totalPrice;
+    }
+}
