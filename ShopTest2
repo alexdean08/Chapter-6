@@ -1,0 +1,45 @@
+/**
+ * This simulates a grocery store where you can get things 
+ * and put them in your cart.
+ * 
+ * @author Alex Dean
+ * @version November 9, 2017
+ */
+
+import java.util.Scanner;
+
+public class ShopTest2{
+    public static void main (String [] args){
+        Scanner scan = new Scanner(System.in);
+        String item;
+        double cost;
+        int quantity;
+        int r = 0;
+        
+        ShoppingCart2 cart = new ShoppingCart2();
+        System.out.println("\fWelcome to Rohit's bistro.");
+        System.out.println("Type \"stop\" to finish shopping.");
+        boolean shop = true;
+        while(shop){
+            System.out.println("What would you like to buy?  Or are you finished shopping?");
+            item = scan.nextLine();
+            if(r>0)
+                item = scan.nextLine();
+            if(item.equalsIgnoreCase("Stop"))
+                shop = false;
+            else{
+                System.out.println("Cost of " + item + ": ");
+                cost = scan.nextDouble();
+                
+                System.out.println("Quantity of " + item + ": ");
+                quantity = scan.nextInt();
+                cart.addToCart(item, cost, quantity);
+                System.out.println(cart);
+                r++;
+            }
+            
+        }
+        System.out.println(cart);
+        System.out.println("Please pay $" + ((int)(cart.getTotalPrice()*100)/100));
+    }
+}
