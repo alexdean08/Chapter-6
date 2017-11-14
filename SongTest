@@ -1,0 +1,18 @@
+import java.util.Scanner;
+
+public class SongTest {
+    public static void main(String [] args){
+        IPod p = new IPod("Alex");
+        p.addSong("Bohemian Rhapsody", "Queen", 180);
+        p.addSong("I want you back", "The Jackson 5", 180);
+        p.addSong("You should be dancing", "Bee Gees", 180);
+        System.out.print("\f" + p + "\n");
+        Scanner scan = new Scanner(System.in);
+        p.playSong();
+        
+        
+    }
+
+    
+
+}
