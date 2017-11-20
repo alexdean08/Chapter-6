@@ -1,13 +1,24 @@
-// **********************************************************************
-// Card.java
-//
-// Represents a Card with a face and a suit.
-// **********************************************************************
+/**
+ * This is a Card object class
+ * 
+ * @author Alex Dean
+ * @version November 20, 2017
+ */
+
 public class Card
 {
     private String face;
     private String suit;
     private int value;
+    private int A = 0;
+    
+    /**
+     * This is the constructor that sets the face, suit, and value of the card
+     * 
+     * @param cardFace the face of the card
+     * @param cardSuit the suit of the card
+     * @param v the value of the card
+     */
     public Card (String cardFace, String cardSuit, int v)
     {
         face = cardFace;
@@ -15,14 +26,42 @@ public class Card
         value = v;
     }
 
+    /**
+     * This returns the basic information of the String
+     * 
+     * @return the basic information of the card
+     */
     public String toString()
     {
-        return face + " of " + suit + " with a value of ";
+    	
+    	if(face.equals("Ace")){
+    		A = 1;
+    	}
+        return face + " of " + suit + " with a value of " + getValue(A);
     }
     
-    public int getValue(){
-        if(value==1){
-            
+    /**
+     * This returns the value of the card
+     * 
+     * @param ace whether or not it is an ace, and whether or not it will be 11
+     * @return the value of the card
+     */
+    public int getValue(int ace){
+        if(ace == 1){
+        	return 11;
         }
+        else{
+        	return value;
+        }
+    	
+    }
+    
+    /**
+     * This returns the face of the card
+     * 
+     * @return face the face of the card
+     */
+    public String getFace(){
+    	return face;
     }
 }
