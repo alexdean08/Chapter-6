@@ -1,8 +1,10 @@
-// **********************************************************************
-// DeckOfCards.java
-//
-// Contains a deck of Card objects. Methods to shuffle and deal Cards.
-// **********************************************************************
+/**
+ * A class representing a deck of cards object
+ * 
+ * @author Alex Dean
+ * @version November 20, 2017
+ */
+
 public class DeckOfCards {
     private Card deck[];
     private int currentCard;
@@ -11,9 +13,10 @@ public class DeckOfCards {
             "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
     private int values[] = {1,2,3,4,5,6,7,8,9,10,10,10,10};
     private String suits[] = { "Hearts", "Diamonds", "Clubs", "Spades" };
-    // -----------------------------------------------------------
-    // Constructor fills a deck array with Card objects.
-    // -----------------------------------------------------------
+    
+    /**
+     * This if the constructor that makes a deck of cards with Card objects
+     */
     public DeckOfCards()
     {
         deck = new Card[ NUMBER_OF_CARDS ];
@@ -22,9 +25,10 @@ public class DeckOfCards {
         for (int count = 0; count < deck.length; count ++)
             deck [ count ] = new Card(faces[count % 13], suits [count / 13], values [count% 13]);
     } // end DeckOfCards constructor
-    // -----------------------------------------------------------
-    // Shuffle deck of Cards by randomly switching all cards in deck.
-    // -----------------------------------------------------------
+
+    /**
+     * This shuffles the deck of cards
+     */
     public void shuffle()
     {
         for (int first = 0; first < deck.length; first++)
@@ -37,9 +41,11 @@ public class DeckOfCards {
             deck[ second ] = temp;
         }
     } // end method shuffle
-    // -----------------------------------------------------------
-    // Deals one Card.
-    // -----------------------------------------------------------
+    /**
+     * This deals a card to the user
+     * 
+     * @return a card to the user
+     */
     public Card dealCard()
     {
         // determine whether Cards remain to be dealt
