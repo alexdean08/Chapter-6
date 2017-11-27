@@ -13,15 +13,22 @@ public class DeckOfCardsTest
 		DeckOfCards deck = new DeckOfCards();
 		Scanner scan = new Scanner(System.in);
 		boolean done = false;
+		boolean cDone = false;
+		boolean tDone = false;
 		int total = 0;
 		int cTotal = 0;
 		int A = 0;
-		
+
 		deck.shuffle(); // put Card objects in random order
 		ArrayList<Card> hand = new ArrayList<Card>();
 		ArrayList<Card> cHand = new ArrayList<Card>();
+
 		hand.add(deck.dealCard());
-		total+=hand.get(0).getValue(0);
+		if(hand.get(0).getFace().equals("Ace") && total+11<=21){
+			A = 1;
+		}
+		total+=hand.get(0).getValue(A);
+		A = 0;
 		hand.add(deck.dealCard());
 		if(hand.get(1).getFace().equals("Ace") && total+11<=21){
 			A = 1;
@@ -29,68 +36,93 @@ public class DeckOfCardsTest
 		total+=hand.get(1).getValue(A);
 
 		System.out.println("Welcome to blackjack.");
+		cHand.add(deck.dealCard());
 
-		while(!done){
-			A = 0;
-			System.out.println("This is your hand:");
-			for(int i = 0; i < hand.size(); i++){
-				System.out.print("| " + hand.get(i) + " |");
-
-			}
-			System.out.println("\nThe total is " + total);
-			if(total > 21){
-				done = true;
-			}
-			else{
-				System.out.println("Hit or stay?");
-				String in = scan.nextLine();
-				if(in.equalsIgnoreCase("Hit")){
-					hand.add(deck.dealCard());
-					if(hand.get(hand.size()-1).getFace().equals("Ace") && total+11<=21){
-						A = 1;
-					}
-					total+=hand.get(hand.size()-1).getValue(A);
-				}
-				else if(in.equalsIgnoreCase("Stay")){
-					done = true;
-				}
-				else{
-					System.out.println("I don't know what you said");
-				}
-			}
-
-		}
 		A = 0;
-		cHand.add(deck.dealCard());
-		
-		cTotal+=cHand.get(0).getValue(0);
-		cHand.add(deck.dealCard());
-		if(cHand.get(1).getFace().equals("Ace") && cTotal+11<=21){
+		if(cHand.get(0).getFace().equals("Ace") && cTotal+11<=21){
 			A = 1;
 		}
-			
+		cTotal+=cHand.get(0).getValue(A);
+		cHand.add(deck.dealCard());	
+
+
 		cTotal+=cHand.get(1).getValue(A);
-		done = false;
-		while(!done){
-			A = 0;
-			if(cTotal > 21){
-				done = true;
-			}
-			else{
-				if(cTotal<=17){
-					cHand.add(deck.dealCard());
-					if(cHand.get(cHand.size()-1).getFace().equals("Ace") && cTotal+11<=21){
-						A = 1;
-					}
-					cTotal+=cHand.get(cHand.size()-1).getValue(A);
+
+		while(!tDone){
+
+			//Player
+			if(!done){
+				A = 0;
+				System.out.println("This is your hand:");
+				for(int i = 0; i < hand.size(); i++){
+					System.out.print("| " + hand.get(i) + " |");
+
 				}
-				else if(cTotal>=18){
+				System.out.println("\nThe total is " + total);
+				System.out.println("This is the computer's first card:  " + cHand.get(0));
+				if(total > 21){
 					done = true;
 				}
+				else if(cTotal == 21){
+
+				}
+
+				else{
+					System.out.println("Hit or stay?");
+					String in = scan.nextLine();
+					if(in.equalsIgnoreCase("Hit")){
+						hand.add(deck.dealCard());
+						if(hand.get(hand.size()-1).getFace().equals("Ace") && total+11<=21){
+							A = 1;
+						}
+						total+=hand.get(hand.size()-1).getValue(A);
+					}
+					else if(in.equalsIgnoreCase("Stay")){
+						done = true;
+					}
+					else{
+						System.out.println("I don't know what you said");
+					}
+
+
+				}
+			}
+			//Dealer
+
+			if(!cDone){
+				A = 0;
+				if(cTotal >= 21){
+					cDone = true;
+				}
+				else{
+					if(cTotal<=16){
+						cHand.add(deck.dealCard());
+						if(cHand.get(cHand.size()-1).getFace().equals("Ace") && cTotal+11<=21){
+							A = 1;
+						}
+						cTotal+=cHand.get(cHand.size()-1).getValue(A);
+					}
+					else if(cTotal>=17){
+						cDone = true;
+					}
+				}
+			}
+
+			if(cDone && done){
+				tDone = true;
 			}
 		}
-		
-		
+		A = 0;
+
+
+
+
+		done = false;
+		while(!done){
+
+		}
+
+
 		System.out.println("This is the computer's hand:");
 		for(int i = 0; i < cHand.size(); i++){
 			System.out.print("| " + cHand.get(i) + " |");
@@ -112,6 +144,6 @@ public class DeckOfCardsTest
 		}
 
 
-		
+
 	}
 }
