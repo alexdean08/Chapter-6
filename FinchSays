@@ -1,99 +1,115 @@
 import edu.cmu.ri.createlab.terk.robot.finch.Finch;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FinchSays{
 
     public static void main (String [] args){
         Finch n = new Finch();
-        
+        Scanner scan = new Scanner(System.in);
         ArrayList<String> say = new ArrayList<String>();
         say.add("up");
         say.add("down");
         say.add("left");
         say.add("right");
+        ArrayList<String> moves = new ArrayList<String>();
         boolean c = true;
-        
+        boolean done = false;
         int r = 0;
         int correct = 0;
+        int temp = 0;
+        
+        System.out.println("Welcome to Rohit says.  This is a memory game\n" + 
+                        "where you have 2 seconds to do each movement (it makes a beeping noise when you should do the next movement)\n" +
+                        "and you have to remeber what\n" + "moves were before it.  Are you ready?");
+        String in = scan.nextLine();
+        if(in.substring(0,1).equalsIgnoreCase("n")){
+            System.out.println("Too bad");
+        }
+        try {
+                    Thread.sleep(250);
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
         while(c){
             r = (int)(Math.random()*4);
-            System.out.println("Rohit says " + say.get(r));
-            n.saySomething("Rohit says " + say.get(r), 100);
-            if(moveCorrect(r, n)){
-                correct++;
+            
+            moves.add(say.get(r));
+            System.out.println("Rohit says " + moves.get(temp));
+            n.saySomething("Rohit says " + moves.get(temp), 100);
+            int i = 0;
+            temp++;
+            while(i < moves.size()-1 || done){
+                try {
+                    Thread.sleep(2000);
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                n.buzz(261, 200);
+                
+                System.out.println(moveCorrect(moves.get(i), n));
+                /*if(moveCorrect(moves.get(i), n)){
+                   
+                }
+                else{
+                    c = false;
+                    done = true;
+                }*/
+                i++;
             }
-            else{
-                c = false;
-            }
+            correct++;
         }
-        
+
         System.out.println("You got " + correct + " correct");
     }
-    
-    public static boolean moveCorrect(int r, Finch n){
-        boolean done = false;
-        while(true){
-                if(r == 0){
-                    if(n.isBeakUp()){
-                        while(!done){
-                            if(!n.isBeakUp()){
-                                done = true;
-                            }
-                        }
-                        return true;
-                    }
-                    else if(n.isBeakDown()||n.isLeftWingDown()||n.isRightWingDown()){
-                        return false;
-                    }
-                    
+
+    public static boolean moveCorrect(String r, Finch n){
+
+        
+            if(r.equals("up")){
+                if(n.isBeakUp()){
+                    return true;
                 }
-                else if(r == 1){
-                    if(n.isBeakDown()){
-                        while(!done){
-                            if(!n.isBeakDown()){
-                                done = true;
-                            }
-                        }
-                        return true;
-                        
-                    }
-                    else if(n.isBeakUp()||n.isLeftWingDown()||n.isRightWingDown()){
-                        return false;
-                    }
-                    
+                else{
+                    return false;
                 }
-                else if(r == 2){
-                    if(n.isLeftWingDown()){
-                        while(!done){
-                            if(!n.isLeftWingDown()){
-                                done = true;
-                            }
-                        }
-                        return true;
-                        
-                    }
-                    else if(n.isBeakUp()||n.isBeakDown()||n.isRightWingDown()){
-                        return false;
-                    }
+
+            }
+            else if(r.equals("down")){
+                if(n.isBeakDown()){
+
+                    return true;
+
                 }
-                else if(r == 3){
-                    if(n.isRightWingDown()){
-                        while(!done){
-                            if(!n.isRightWingDown()){
-                                done = true;
-                            }
-                        }
-                        return true;
-                        
-                    }
-                    else if(n.isBeakUp()||n.isBeakDown()||n.isLeftWingDown()){
-                        return false;
-                    }
+                else{
+                    return false;
+                }
+
+            }
+            else if(r.equals("left")){
+                if(n.isLeftWingDown()){
+
+                    return true;
+
                 }
                 else{
                     return false;
                 }
             }
+            else if(r.equals("right")){
+                if(n.isRightWingDown()){
+
+                    return true;
+
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
         
+
     }
 }
