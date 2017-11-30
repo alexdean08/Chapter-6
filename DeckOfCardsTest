@@ -8,142 +8,167 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class DeckOfCardsTest
 {
-	public static void main (String[] args)
-	{
-		DeckOfCards deck = new DeckOfCards();
-		Scanner scan = new Scanner(System.in);
-		boolean done = false;
-		boolean cDone = false;
-		boolean tDone = false;
-		int total = 0;
-		int cTotal = 0;
-		int A = 0;
+    public static void main (String[] args)
+    {
+        DeckOfCards deck = new DeckOfCards();
+        Scanner scan = new Scanner(System.in);
+        boolean play = true;
+        int num = 0;
+        
+        System.out.println("\fWelcome to blackjack.\n");
+        
+        while(play){
+            
 
-		deck.shuffle(); // put Card objects in random order
-		ArrayList<Card> hand = new ArrayList<Card>();
-		ArrayList<Card> cHand = new ArrayList<Card>();
+            if(num == 0){
+                System.out.println("Would you like to play?");
+            }
+            else{
+                System.out.println("Would you like to play again?");
+            }
+            String pl = scan.nextLine();
+            if(pl.substring(0,1).equalsIgnoreCase("n")){
+                play = false;
+            }
+            else{
+                boolean done = false;
+                boolean cDone = false;
+                boolean tDone = false;
+                int total = 0;
+                int cTotal = 0;
+                int A = 0;
 
-		hand.add(deck.dealCard());
-		if(hand.get(0).getFace().equals("Ace") && total+11<=21){
-			A = 1;
-		}
-		total+=hand.get(0).getValue(A);
-		A = 0;
-		hand.add(deck.dealCard());
-		if(hand.get(1).getFace().equals("Ace") && total+11<=21){
-			A = 1;
-		}
-		total+=hand.get(1).getValue(A);
+                deck.shuffle(); // put Card objects in random order
+                ArrayList<Card> hand = new ArrayList<Card>();
+                ArrayList<Card> cHand = new ArrayList<Card>();
 
-		System.out.println("Welcome to blackjack.");
-		cHand.add(deck.dealCard());
+                hand.add(deck.dealCard());
+                if(hand.get(0).getFace().equals("Ace") && total+11<=21){
+                    A = 1;
+                }
+                total+=hand.get(0).getValue(A);
+                A = 0;
+                hand.add(deck.dealCard());
+                if(hand.get(1).getFace().equals("Ace") && total+11<=21){
+                    A = 1;
+                }
+                total+=hand.get(1).getValue(A);
 
-		A = 0;
-		if(cHand.get(0).getFace().equals("Ace") && cTotal+11<=21){
-			A = 1;
-		}
-		cTotal+=cHand.get(0).getValue(A);
-		cHand.add(deck.dealCard());	
+                cHand.add(deck.dealCard());
+                A = 0;
+                if(cHand.get(0).getFace().equals("Ace") && cTotal+11<=21){
+                    A = 1;
+                }
+                cTotal+=cHand.get(0).getValue(A);
+                cHand.add(deck.dealCard()); 
 
+                cTotal+=cHand.get(1).getValue(A);
+                while(!tDone){
+                    //Player
+                    if(!done){
+                        A = 0;
+                        System.out.println("This is your hand:");
+                        for(int i = 0; i < hand.size(); i++){
+                            System.out.print("| " + hand.get(i) + " |\n");
 
-		cTotal+=cHand.get(1).getValue(A);
+                        }
+                        System.out.println("\nThe total is " + total);
+                        System.out.println("This is the computer's first card:  " + cHand.get(0));
+                        if(total > 21){
+                            done = true;
+                        }
+                        else if(cTotal == 21){
+                            
+                        }
 
-		while(!tDone){
+                        else{
+                            System.out.println("Hit or stay?");
+                            String in = scan.nextLine();
+                            if(in.equalsIgnoreCase("Hit")){
+                                hand.add(deck.dealCard());
+                                if(hand.get(hand.size()-1).getFace().equals("Ace") && total+11<=21){
+                                    A = 1;
+                                }
+                                total+=hand.get(hand.size()-1).getValue(A);
+                            }
+                            else if(in.equalsIgnoreCase("Stay")){
+                                done = true;
+                            }
+                            else{
+                                System.out.println("I don't know what you said");
+                            }
 
-			//Player
-			if(!done){
-				A = 0;
-				System.out.println("This is your hand:");
-				for(int i = 0; i < hand.size(); i++){
-					System.out.print("| " + hand.get(i) + " |");
+                        }
+                    }
+                    //Dealer
 
-				}
-				System.out.println("\nThe total is " + total);
-				System.out.println("This is the computer's first card:  " + cHand.get(0));
-				if(total > 21){
-					done = true;
-				}
-				else if(cTotal == 21){
+                    if(!cDone){
+                        A = 0;
+                        if(cTotal >= 21){
+                            cDone = true;
+                        }
+                        else{
+                            if(cTotal<=16){
+                                cHand.add(deck.dealCard());
+                                if(cHand.get(cHand.size()-1).getFace().equals("Ace") && cTotal+11<=21){
+                                    A = 1;
+                                }
+                                cTotal+=cHand.get(cHand.size()-1).getValue(A);
+                            }
+                            else if(cTotal>=17 && cTotal<21){
+                                cDone = true;
+                            }
+                            else if(cTotal == 21){
+                                tDone = true;
+                            }
+                            else if(cTotal>21){
+                                int i = 0;
+                                boolean ace = false;
+                                while(i<cHand.size() || ace){
+                                    if(cHand.get(i).getFace().equals("Ace")){
+                                        ace = true;
+                                    }
+                                    i++;
+                                }
+                                if(ace = true){
+                                    cTotal-=10;
+                                }
+                                else{
+                                    cDone = true;
+                                }
+                            }
+                        }
+                    }
 
-				}
+                    if(cDone && done){
+                        tDone = true;
+                    }
+                }
+                A = 0;
+                done = false;
 
-				else{
-					System.out.println("Hit or stay?");
-					String in = scan.nextLine();
-					if(in.equalsIgnoreCase("Hit")){
-						hand.add(deck.dealCard());
-						if(hand.get(hand.size()-1).getFace().equals("Ace") && total+11<=21){
-							A = 1;
-						}
-						total+=hand.get(hand.size()-1).getValue(A);
-					}
-					else if(in.equalsIgnoreCase("Stay")){
-						done = true;
-					}
-					else{
-						System.out.println("I don't know what you said");
-					}
+                System.out.println("This is the computer's hand:");
+                for(int i = 0; i < cHand.size(); i++){
+                    System.out.print("| " + cHand.get(i) + " |\n");
 
+                }
+                System.out.println("\nThe computer's total is " + cTotal);
+                System.out.println();
+                System.out.println("Your total: " + total + " -- computer total: " + cTotal);
+                if(total<=21){
+                    if(cTotal>21||cTotal<total){
+                        System.out.println("You win!");
+                    }
+                    else if(cTotal>=total){
+                        System.out.println("You lose!");
+                    }
+                }
+                else if(total>21){
+                    System.out.println("You lose");
+                }
 
-				}
-			}
-			//Dealer
-
-			if(!cDone){
-				A = 0;
-				if(cTotal >= 21){
-					cDone = true;
-				}
-				else{
-					if(cTotal<=16){
-						cHand.add(deck.dealCard());
-						if(cHand.get(cHand.size()-1).getFace().equals("Ace") && cTotal+11<=21){
-							A = 1;
-						}
-						cTotal+=cHand.get(cHand.size()-1).getValue(A);
-					}
-					else if(cTotal>=17){
-						cDone = true;
-					}
-				}
-			}
-
-			if(cDone && done){
-				tDone = true;
-			}
-		}
-		A = 0;
-
-
-
-
-		done = false;
-		while(!done){
-
-		}
-
-
-		System.out.println("This is the computer's hand:");
-		for(int i = 0; i < cHand.size(); i++){
-			System.out.print("| " + cHand.get(i) + " |");
-
-		}
-		System.out.println("\nThe computer's total is " + cTotal);
-		System.out.println();
-		System.out.println("Your total: " + total + " -- computer total: " + cTotal);
-		if(total<=21){
-			if(cTotal>21||cTotal<total){
-				System.out.println("You win!");
-			}
-			else if(cTotal>=total){
-				System.out.println("You lose!");
-			}
-		}
-		else if(total>21){
-			System.out.println("You lose");
-		}
-
-
-
-	}
+                num++;
+            }
+        }
+    }
 }
