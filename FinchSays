@@ -2,6 +2,12 @@ import edu.cmu.ri.createlab.terk.robot.finch.Finch;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This is the finch simon says
+ * 
+ * @author Alex Dean, Eric Zhu
+ * @version December 4, 2017
+ */
 public class FinchSays{
 
     public static void main (String [] args){
@@ -19,9 +25,9 @@ public class FinchSays{
         int correct = 0;
         int temp = 0;
         
-        System.out.println("Welcome to Rohit says.  This is a memory game\n" + 
+        System.out.println("\fWelcome to Rohit says.  This is a memory game\n" + 
                         "where you have 2 seconds to do each movement (it makes a beeping noise when you should do the next movement)\n" +
-                        "and you have to remeber what\n" + "moves were before it.  Are you ready?");
+                        "You have to remeber what\n" + "moves were before it.  Are you ready?");
         String in = scan.nextLine();
         if(in.substring(0,1).equalsIgnoreCase("n")){
             System.out.println("Too bad");
@@ -35,11 +41,11 @@ public class FinchSays{
             r = (int)(Math.random()*4);
             
             moves.add(say.get(r));
-            System.out.println("Rohit says " + moves.get(temp));
+            System.out.println("\fRohit says " + moves.get(temp));
             n.saySomething("Rohit says " + moves.get(temp), 100);
             int i = 0;
             temp++;
-            while(i < moves.size()-1 || done){
+            while(i < moves.size() && !done){
                 try {
                     Thread.sleep(2000);
                 } catch(InterruptedException ex) {
@@ -47,22 +53,31 @@ public class FinchSays{
                 }
                 n.buzz(261, 200);
                 
-                System.out.println(moveCorrect(moves.get(i), n));
-                /*if(moveCorrect(moves.get(i), n)){
+              
+                if(moveCorrect(moves.get(i), n)){
                    
                 }
                 else{
                     c = false;
                     done = true;
-                }*/
+                }
                 i++;
             }
-            correct++;
+            if(!done){
+                correct++;
+            }
         }
 
-        System.out.println("You got " + correct + " correct");
+        System.out.println("You got " + correct + " rounds correct");
     }
 
+    /**
+     * This checks if the move is correct
+     * 
+     * @param String r the correct move
+     * @param Finch n the finch
+     * @return true or false if the move is correct
+     */
     public static boolean moveCorrect(String r, Finch n){
 
         
